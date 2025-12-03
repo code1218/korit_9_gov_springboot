@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class  RequestDataController2{
 
@@ -42,6 +43,7 @@ public class  RequestDataController2{
     // 파일 전송을 위해서는 요청 Content-Type이 꼭 multipart/form-data
     @PostMapping(value = "/req/data4", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> reqPost4(ReqFormDataDto4 dto) {
+        System.out.println(dto);
         System.out.println(dto.getFile().getOriginalFilename());
         return ResponseEntity.ok().build();
     }
@@ -51,6 +53,29 @@ public class  RequestDataController2{
     @PostMapping(value = "/req/data5", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> reqPost5(@RequestPart("files") List<MultipartFile> files) {
         files.forEach(file -> System.out.println(file.getOriginalFilename()));
+        return ResponseEntity.ok().build();
+    }
+
+
+
+
+    // PUT 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
+    @PutMapping("/req/data1/{id}")
+    public ResponseEntity<?> reqPut(@PathVariable int id, @RequestBody ReqJsonDto2 dto) {
+        System.out.println(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    // PATCH 요청 데이터 받는 방법 1 - JSON 데이터만 보통 사용
+    @PatchMapping("/req/data1/{id}")
+    public ResponseEntity<?> reqPatch(@PathVariable int id, @RequestBody ReqJsonDto2 dto) {
+        System.out.println(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/req/data1/{id}")
+    public ResponseEntity<?> reqDelete(@PathVariable int id) {
+        System.out.println(id);
         return ResponseEntity.ok().build();
     }
 
