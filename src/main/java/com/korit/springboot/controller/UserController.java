@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -21,10 +23,10 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/api/users")
-    public ResponseEntity<?> create(@Valid @RequestBody CreateUserReqDto dto) {
+    public ResponseEntity<Map<String, Integer>> create(@Valid @RequestBody CreateUserReqDto dto) {
         userService.duplicatedUsername(dto.getUsername());
-        userService.createUser(dto);
-        return ResponseEntity.ok().build();
+        int createdUserId = userService.createUser(dto);
+        return ResponseEntity.ok(Map.of("createdUserId", createdUserId));
     }
 
 }
