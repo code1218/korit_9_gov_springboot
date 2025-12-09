@@ -14,6 +14,7 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI openAPIConfig() {
         OpenAPI openAPI = new OpenAPI();
+
         Info info = new Info();
         info.title("스프링 부트 수업");
         info.version("1.0");

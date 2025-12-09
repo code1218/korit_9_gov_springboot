@@ -30,4 +30,18 @@
             username = #{username}
     </select>
 
+    <select id="findUserByUserId" resultMap="userEntity">
+        select
+            user_id,
+            username,
+            password,
+            name,
+            email
+        from
+            user_tb
+        where
+            user_id = #{userId}
+    </select>
+
+
 </mapper>
