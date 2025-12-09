@@ -3,16 +3,21 @@ package com.korit.springboot.filter;
 import com.korit.springboot.entity.UserEntity;
 import com.korit.springboot.jwt.JwtTokenProvider;
 import com.korit.springboot.mapper.UserMapper;
+import com.korit.springboot.security.PrincipalUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @Component
 @RequiredArgsConstructor
@@ -44,8 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        System.out.println(foundUser);
 
-        SecurityContextHolder.getContext().setAuthentication(null);
+        PrincipalUser principalUser = null;
+        String password = "";
+        Collection<? extends GrantedAuthority> authorities = principalUser.getAuthorities();
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(principalUser, password, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 
